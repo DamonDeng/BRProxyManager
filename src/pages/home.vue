@@ -1,42 +1,42 @@
 <template>
   <div class="home">
-    <Card title="我的" bordered>
+    <Card :title="$t('home.title')" bordered>
       <Space class="items">
         <div class="item">
-          <span class="key">总消费</span>
+          <span class="key">{{ $t('home.total_fee') }}</span>
           <span class="value">{{ parseFloat(my_info.total_fee || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">本月消费</span>
+          <span class="key">{{ $t('home.month_fee') }}</span>
           <span class="value">{{ parseFloat(my_info.month_fee || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">本月额度</span>
+          <span class="key">{{ $t('home.month_quota') }}</span>
           <span class="value">{{ parseFloat(my_info.month_quota || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">余额</span>
+          <span class="key">{{ $t('home.balance') }}</span>
           <span class="value">{{ parseFloat(my_info.balance || 0) }}<span class="sub">USD</span></span>
         </div>
       </Space>
     </Card>
 
-    <Card title="全体" bordered v-if="false">
+    <Card :title="$t('home.all')" bordered v-if="false">
       <Space class="items">
         <div class="item">
-          <span class="key">总消费</span>
+          <span class="key">{{ $t('home.total_fee') }}</span>
           <span class="value">{{ parseFloat(my_info.total_fee || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">本月消费</span>
+          <span class="key">{{ $t('home.month_fee') }}</span>
           <span class="value">{{ parseFloat(my_info.month_fee || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">本月额度</span>
+          <span class="key">{{ $t('home.month_quota') }}</span>
           <span class="value">{{ parseFloat(my_info.month_quota || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">余额</span>
+          <span class="key">{{ $t('home.balance') }}</span>
           <span class="value">{{ parseFloat(my_info.balance || 0) }}<span class="sub">USD</span></span>
         </div>
       </Space>
@@ -49,12 +49,6 @@ export default {
     return {
       loading: false,
       my_info: {},
-      data: [],
-      columns: [
-        { title: 'Date', key: '' },
-        { title: 'Amount', key: '' },
-        { title: 'Type', key: '' }
-      ]
     }
   },
   computed: {
@@ -118,5 +112,7 @@ export default {
   .k-card {
     margin-bottom: 20px;
   }
+
+ 
 }
 </style>

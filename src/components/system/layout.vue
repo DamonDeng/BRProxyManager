@@ -9,17 +9,17 @@
           </Col>
           <Col>
           <Space :size="10">
-            <Dropdown show-placement-arrow placement="top">
-              <Button :icon="NotificationsOutline" theme="normal" size="small" />
-              <!-- <Status slot="content" /> -->
+            <Dropdown show-placement-arrow @click="change_lang">
+              <Button :icon="Language" theme="normal" size="small" />
+              <Menu slot="content">
+                <MenuItem key="en">🇺🇸 English</MenuItem>
+                <MenuItem key="zh">🇨🇳 简体中文</MenuItem>
+              </Menu>
             </Dropdown>
             <Button :icon="theme != 'dark' ? Moon : Sunny" theme="normal" size="small" @click="switchMode" />
             <!-- <Input :icon="Search" theme="light" shape="circle" placeholder="搜索" style="width:200px" /> -->
             <Dropdown show-placement-arrow trigger="hover" placement="bottom-right" @click="sign_out">
-              <div>
-                <Avatar style="background:#3a95ff" :size="25">{{ name }}</Avatar>
-                <span>{{ name }}</span>
-              </div>
+              <Button :icon="Person" size="small" theme="normal">{{ name }} </Button>
               <Menu slot="content">
                 <MenuItem key="sign_out">Sign out </MenuItem>
               </Menu>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { NotificationsOutline, Search, Sunny, Moon } from "kui-icons";
+import { NotificationsOutline, Search, Sunny, Moon, Person, Language } from "kui-icons";
 import Status from '../status.vue'
 import Sider from './sider.vue'
 import Tab from './tab.vue'
@@ -65,7 +65,7 @@ export default {
     return {
       timer: null,
       loading: false,
-      Search, NotificationsOutline, Sunny, Moon,
+      Sunny, Moon, Person, Language,
       theme: localStorage.getItem('theme'),
       name: localStorage.getItem('name') || '',
     };
@@ -85,6 +85,11 @@ export default {
   mounted() {
   },
   methods: {
+    change_lang({ key }) {
+      this.$i18n.locale = key
+      localStorage.setItem('lang', key)
+      location.reload()
+    },
     sign_out() {
       localStorage.setItem('key', '')
       localStorage.setItem('role', '')

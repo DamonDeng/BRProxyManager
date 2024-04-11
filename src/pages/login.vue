@@ -1,16 +1,16 @@
 <template>
   <div class="login">
     <div class="login-box">
-      <h1>Sign in to BRProxy</h1>
-      <Form size="large" :model="form" :rules="rules" layout="vertical" @submit="login">
+      <h1>{{ $t('login.title') }}</h1>
+      <Form size="large" :model="form" :rules="rules" layout="vertical" @submit="login" theme="light">
         <FormItem label="Host" prop="host">
-          <Input type="text" placeholder="https://" theme="light" />
+          <Input type="text" placeholder="https://" />
         </FormItem>
         <FormItem label="API Key" prop="key">
-          <Input type="password" placeholder="Please input api key..." theme="light" />
+          <Input type="password" placeholder="Please input api key..." />
         </FormItem>
         <FormItem class="btn">
-          <Button type="primary" :loading="loading" htmlType="submit">Sign in</Button>
+          <Button type="primary" :loading="loading" htmlType="submit">{{ $t('login.btn') }}</Button>
         </FormItem>
       </Form>
     </div>
