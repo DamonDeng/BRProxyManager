@@ -1,47 +1,46 @@
 <template>
   <div class="my-keys">
     <Space>
-      <Input />
-      <Button @click="get_data">Query</Button>
-      <Button @click="add">New</Button>
-      <Button @click="imports">Import</Button>
+      <Button @click="get_data">{{ $t('keys.btn_query') }}</Button>
+      <Button @click="add">{{ $t('keys.btn_new') }}</Button>
+      <Button @click="imports">{{ $t('keys.btn_import') }}</Button>
     </Space>
     <Table :data="items" :columns="columns" :loading="loading">
       <template v-slot:api_key="c, row">
         <Space>
           {{ format_key(row) }}
-          <Tooltip title="Copy Key">
+          <Tooltip :title="$t('keys.tip_copy_key')">
             <Button :icon="Copy" theme="normal" size="small" @click="copy(row)" />
           </Tooltip>
         </Space>
       </template>
       <template v-slot:action="c, row">
         <Space>
-          <Button size="small" @click="recharge(row)">Recharge</Button>
-          <Button size="small" @click="edit(row)">Edit</Button>
+          <Button size="small" @click="recharge(row)">{{ $t('keys.btn_recharge') }}</Button>
+          <Button size="small" @click="edit(row)">{{ $t('keys.btn_edit') }}</Button>
         </Space>
       </template>
     </Table>
     <Page :current="page" :total="total" @change="change" :page-size="size" />
     <Modal :title="title" v-model="show" @ok="save" :loading="saving">
-      <Form :model="form" :rules="rules" layout="vertical" ref="form">
-        <FormItem label="Name" prop="name">
-          <Input placeholder="name" theme="light" :readonly="action == 'recharge'" />
+      <Form :model="form" :rules="rules" layout="vertical" ref="form" theme="light">
+        <FormItem :label="this.$t('keys.col_name')" prop="name">
+          <Input placeholder="Name" :readonly="action == 'recharge'" />
         </FormItem>
-        <FormItem label="Email" prop="email" :readonly="action == 'recharge'">
-          <Input theme="light" />
+        <FormItem :label="this.$t('keys.col_email')" prop="email" :readonly="action == 'recharge'">
+          <Input placeholder="Email" />
         </FormItem>
-        <FormItem label="Role" prop="role" v-if="action != 'recharge'">
-          <Select :width="200">
-            <Option value="user" label="普通用户" />
-            <Option value="admin" label="管理员" />
+        <FormItem :label="this.$t('keys.col_role')" prop="role" v-if="action != 'recharge'">
+          <Select :width="200" placeholder="Role">
+            <Option value="user" :label="$t('keys.op_normal')" />
+            <Option value="admin" :label="$t('keys.op_admin')" />
           </Select>
         </FormItem>
-        <FormItem label="Balance" prop="balance" v-if="action == 'recharge'">
-          <Input theme="light" />
+        <FormItem :label="this.$t('keys.col_balance')" prop="balance" v-if="action == 'recharge'">
+          <Input placeholder="Balance" />
         </FormItem>
-        <FormItem label="Month Quota" prop="month_quota" v-if="action != 'recharge'">
-          <Input theme="light" />
+        <FormItem :label="this.$t('keys.col_month_quota')" prop="month_quota" v-if="action != 'recharge'">
+          <Input />
         </FormItem>
       </Form>
     </Modal>
@@ -50,22 +49,23 @@
 <script>
 import { Copy } from 'kui-icons'
 export default {
+  name: 'AdminKeys',
   data() {
     return {
       Copy,
       items: [],
       title: '',
       columns: [
-        { key: 'name', title: 'Name' },
-        { key: 'api_key', title: 'Key' },
-        { key: 'email', title: 'Email' },
-        { key: 'role', title: 'Role' },
-        { key: 'total_fee', title: '总消费' },
-        { key: 'balance', title: '余额' },
-        { key: 'month_fee', title: '本月消费' },
-        { key: 'month_quota', title: '本月额度' },
+        { key: 'name', title: this.$t('keys.col_name') },
+        { key: 'api_key', title: this.$t('keys.col_key') },
+        { key: 'email', title: this.$t('keys.col_email') },
+        { key: 'role', title: this.$t('keys.col_role') },
+        { key: 'total_fee', title: this.$t('keys.col_total_fee') },
+        { key: 'balance', title: this.$t('keys.col_balance') },
+        { key: 'month_fee', title: this.$t('keys.col_month_fee') },
+        { key: 'month_quota', title: this.$t('keys.col_month_quota') },
         // { key: 'created_at', title: 'Date' },
-        { key: 'action', title: 'Action' },
+        { key: 'action', title: this.$t('keys.col_action') },
       ],
       form: { name: '', email: '', role: 'user', month_quota: '', balance: 0 },
       rules: {
@@ -121,19 +121,19 @@ export default {
     },
     edit(row) {
       this.form = row
-      this.title = 'Edit'
+      this.title = this.$t('keys.btn_edit')
       this.action = 'edit'
       this.show = true
     },
     recharge(row) {
       this.form = row
-      this.title = "Recharge"
+      this.title = this.$t('keys.btn_recharge')
       this.action = 'recharge'
       this.show = true
     },
     add() {
       this.action = 'new'
-      this.title = 'New'
+      this.title = this.$t('keys.btn_new')
       this.show = true
       this.form.id = 0;
       this.form.role = 'user'
@@ -155,7 +155,7 @@ export default {
             })
             return
           }
-          const apiPath = this.action == 'new' ? "/admin/api-key/apply": "/admin/api-key/update";
+          const apiPath = this.action == 'new' ? "/admin/api-key/apply" : "/admin/api-key/update";
           this.$http.post(apiPath, this.form).then(res => {
             this.show = false
             this.$Message.success("Save successfuly.")
@@ -173,5 +173,9 @@ export default {
 <style lang="less">
 .my-keys {
   padding: 20px;
+
+  th {
+    word-break: keep-all !important;
+  }
 }
 </style>

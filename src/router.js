@@ -2,7 +2,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 Vue.use(VueRouter)
 import Layout from './components/system/layout'
-
+import i18n from "./lang/i18n"
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location, onResolve, onReject) {
   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
@@ -27,7 +27,7 @@ const router = new VueRouter({
         {
           path: '/',
           name: 'Home',
-          meta: { title: '盘仪表', icon: Home },
+          meta: { title: i18n.t("menu.dashboard"), icon: Home },
           component: () => import(/*webpackChunkName:'Home'*/'./pages/home')
         }
       ]
@@ -41,8 +41,8 @@ const router = new VueRouter({
       children: [
         {
           path: '/admin/keys',
-          name: 'Admin',
-          meta: { title: 'API Keys', icon: Key },
+          name: 'AdminKeys',
+          meta: { title: i18n.t("menu.key"), icon: Key },
           component: () => import(/*webpackChunkName:'Home'*/'./pages/keys')
         },
         {
