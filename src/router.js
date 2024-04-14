@@ -8,7 +8,7 @@ VueRouter.prototype.push = function push(location, onResolve, onReject) {
   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
   return originalPush.call(this, location).catch(err => err)
 }
-import { Home, Tv, Globe, StatsChart, Timer, People, DocumentText, Hammer, Link, Key } from 'kui-icons'
+import { Home, Tv, Globe, StatsChart, Timer, Person, DocumentText, Hammer, Link, Key, Menu, Reader } from 'kui-icons'
 
 const router = new VueRouter({
   mode: 'history',
@@ -33,6 +33,26 @@ const router = new VueRouter({
       ]
     },
     {
+      path: '/user',
+      component: Layout,
+      meta: { title: '我的话题', icon: Person },
+      children: [
+        {
+          path: '/user/sessions',
+          name: 'userSessions',
+          meta: { title: '话题列表', icon: Menu },
+          component: () => import(/*webpackChunkName:'Home'*/'./pages/sessions'),
+        },
+        {
+          path: '/user/sessions/:session_id/threads',
+          name: 'userThreads',
+          meta: { title: '对话列表', icon: Reader },
+          component: () => import(/*webpackChunkName:'Home'*/'./pages/threads'),
+          hidden: true
+        }
+      ]
+    },
+    {
       path: '/admin',
       component: Layout,
       meta: { title: 'Admin', icon: Hammer },
@@ -47,10 +67,17 @@ const router = new VueRouter({
         },
         {
           path: '/admin/sessions',
-          name: 'huati',
-          meta: { title: '话题列表', icon: Hammer },
-          component: () => import(/*webpackChunkName:'Home'*/'./pages/huati'),
-          hidden: true,
+          name: 'adminSessions',
+          meta: { title: '话题列表', icon: Menu },
+          component: () => import(/*webpackChunkName:'Home'*/'./pages/sessions'),
+          // hidden: true,
+        },
+        {
+          path: '/admin/sessions/:session_id/threads',
+          name: 'adminThreads',
+          meta: { title: '对话列表', icon: Reader },
+          component: () => import(/*webpackChunkName:'Home'*/'./pages/threads'),
+          hidden: true
         }
       ]
     },
