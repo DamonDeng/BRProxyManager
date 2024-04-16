@@ -93,16 +93,17 @@ export default {
     sign_out() {
       localStorage.setItem('key', '')
       localStorage.setItem('role', '')
+      this.$store.commit('user/logout')    
       this.$router.push('/login')
     },
     switchMode() {
       const body = document.documentElement;
       if (body.hasAttribute('theme-mode')) {
-        body.removeAttribute('theme-mode');
+        body.removeAttribute('theme-mode')
         localStorage.removeItem('theme')
         this.theme = 'light'
       } else {
-        body.setAttribute('theme-mode', 'dark');
+        body.setAttribute('theme-mode', 'dark')
         localStorage.setItem('theme', 'dark')
         this.theme = 'dark'
       }

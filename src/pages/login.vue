@@ -46,11 +46,20 @@ export default {
       this.$http.get(host + '/user/api-key/mine', null, key).then(res => {
         // console.log(res);
         if (res.success) {
+          const userInfo = {
+            key: key,
+            name: res.data.name,
+            role: res.data.role,
+            host: host
+          }
+          this.$store.commit('user/login', userInfo)
           localStorage.setItem("key", key);
           localStorage.setItem("name", res.data.name);
           localStorage.setItem("role", res.data.role);
           localStorage.setItem("host", host);
-          this.$router.push('/')
+
+          // this.$router.push('/')
+          window.location.href = ''
         } else {
           alert(res.data);
         }

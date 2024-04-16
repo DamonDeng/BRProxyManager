@@ -21,23 +21,27 @@
       </Space>
     </Card>
 
-    <Card :title="$t('home.all')" bordered v-if="false">
+    <Card :title="$t('home.all')" bordered v-if="is_admin">
       <Space class="items">
         <div class="item">
           <span class="key">{{ $t('home.total_fee') }}</span>
-          <span class="value">{{ parseFloat(my_info.total_fee || 0) }}<span class="sub">USD</span></span>
+          <span class="value">{{ parseFloat(total_info.total_fee || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">{{ $t('home.month_fee') }}</span>
-          <span class="value">{{ parseFloat(my_info.month_fee || 0) }}<span class="sub">USD</span></span>
+          <span class="key">{{ $t('home.total_month_fee') }}</span>
+          <span class="value">{{ parseFloat(total_info.total_month_fee || 0) }}<span class="sub">USD</span></span>
         </div>
         <div class="item">
-          <span class="key">{{ $t('home.month_quota') }}</span>
-          <span class="value">{{ parseFloat(my_info.month_quota || 0) }}<span class="sub">USD</span></span>
+          <span class="key">{{ $t('home.count_key') }}</span>
+          <span class="value">{{ total_info.count_key }}</span>
         </div>
         <div class="item">
-          <span class="key">{{ $t('home.balance') }}</span>
-          <span class="value">{{ parseFloat(my_info.balance || 0) }}<span class="sub">USD</span></span>
+          <span class="key">{{ $t('home.active_key') }}</span>
+          <span class="value">{{ total_info.active_key }}</span>
+        </div>
+        <div class="item">
+          <span class="key">{{ $t('home.active_key_this_month') }}</span>
+          <span class="value">{{ total_info.active_key_this_month }}</span>
         </div>
       </Space>
     </Card>
@@ -49,6 +53,7 @@ export default {
     return {
       loading: false,
       my_info: {},
+      total_info: {},
     }
   },
   computed: {
@@ -65,6 +70,16 @@ export default {
         this.my_info = res.data;
       } else {
         alert(res.data);
+      }
+      if (this.is_admin) {
+        this.$http.get(host + '/admin/statistics/total', null, key).then(res => {
+          console.log('total:', res)
+          if (res.success) {
+            this.total_info = res.data;
+          } else {
+            alert(res.data);
+          }
+        })
       }
     }).finally(() => {
       this.loading = false

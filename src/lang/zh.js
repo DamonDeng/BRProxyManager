@@ -13,7 +13,11 @@ export default {
     total_fee: '总消费',
     month_fee: '本月消费',
     month_quota: '本月额度',
-    balance: '余额'
+    balance: '余额',
+    total_month_fee: '本月总消费',
+    count_key: 'key总数',
+    active_key: 'key使用数',
+    active_key_this_month: 'key本月使用数'
   },
   sessions: {
     col_title: '标题',

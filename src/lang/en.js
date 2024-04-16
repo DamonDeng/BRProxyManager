@@ -13,7 +13,13 @@ export default {
     total_fee: 'Total Fee',
     month_fee: 'Month Fee',
     month_quota: 'Month Quota',
-    balance: 'Balance'
+    balance: 'Balance',
+
+    total_month_fee: 'Total Month Fee',
+    count_key: 'Total Key',
+    active_key: 'Active Key',
+    active_key_this_month: 'Month Active Key'
+
   },
   sessions: {
     col_title: 'Title',

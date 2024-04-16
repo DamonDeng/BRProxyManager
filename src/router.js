@@ -11,7 +11,7 @@ VueRouter.prototype.push = function push(location, onResolve, onReject) {
 import { Home, Tv, Globe, StatsChart, Timer, Person, DocumentText, Hammer, Link, Key, Menu, Reader } from 'kui-icons'
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/login',
@@ -56,20 +56,22 @@ const router = new VueRouter({
       path: '/admin',
       component: Layout,
       meta: { title: 'Admin', icon: Hammer },
-      hidden: (localStorage.getItem('role') != 'admin'),
+      hidden: localStorage.getItem('role') != 'admin',
       // hidden: (localStorage.getItem('role') == 'admin'),
       children: [
         {
           path: '/admin/keys',
           name: 'AdminKeys',
           meta: { title: i18n.t("menu.key"), icon: Key },
-          component: () => import(/*webpackChunkName:'Home'*/'./pages/keys')
+          component: () => import(/*webpackChunkName:'Home'*/'./pages/keys'),
+          // hidden: localStorage.getItem('role') != 'admin'
         },
         {
           path: '/admin/sessions',
           name: 'adminSessions',
           meta: { title: '话题列表', icon: Menu },
           component: () => import(/*webpackChunkName:'Home'*/'./pages/sessions'),
+          // hidden: localStorage.getItem('role') != 'admin',
           // hidden: true,
         },
         {
